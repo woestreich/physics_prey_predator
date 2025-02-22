@@ -15,18 +15,24 @@ load("data_processed/cuti_clim.Rdata")
 load("data_processed/migration_transition.Rdata")
 migration_transition$year <- year(migration_transition$date)
 migrate_22 <- migration_transition %>%
-  filter(format(date, "%Y") == "2022") %>%
+  filter(format(date, "%Y") == "2022")
+migrate_onset_22 <- migrate_22 %>%
   arrange(date) %>%
   slice(1) %>%
   pull(date)
-migrate_22 <- as.Date(migrate_22)
+migrate_onset_22 <- as.Date(migrate_onset_22)
+migrate_mean_22 <- as.Date(mean(migrate_22$date))
+
 migrate_23 <- migration_transition %>%
-  filter(format(date, "%Y") == "2023") %>%
+  filter(format(date, "%Y") == "2023")
+migrate_onset_23 <- migrate_23 %>%
   arrange(date) %>%
   slice(1) %>%
   pull(date)
-migrate_23 <- as.Date(migrate_23)
-migrate_23 <- update(migrate_23, year = 2022)
+migrate_onset_23 <- as.Date(migrate_onset_23)
+migrate_onset_23 <- update(migrate_onset_23, year = 2022)
+migrate_mean_23 <- as.Date(mean(migrate_23$date))
+migrate_mean_23 <- update(migrate_mean_23, year = 2022)
   
 custom_breaks <- seq(as.Date("2022-01-01"), as.Date("2022-12-15"), by = "1 month")
 
@@ -37,8 +43,8 @@ pa <- ggplot(cuti_clim, aes(date, csummean)) +
   geom_line(aes(y = csum95pctl), linetype="dashed", color="black", linewidth=0.5) +
   geom_line(color="black", linewidth=1) +
   geom_line(data=cuti_csum, aes(x=date, y=csumrm, color=as.factor(year)), linewidth=1.8) +
-  geom_point(aes(x = migrate_22, y = 250), color = "black", fill = "#66c2a5", shape = 25, size = 4) +
-  geom_point(aes(x = migrate_23, y = 250), color = "black", fill = "#8da0cb", shape = 25, size = 4) +
+  geom_point(aes(x = migrate_onset_22, y = 250), color = "black", fill = "#66c2a5", shape = 25, size = 4) +
+  geom_point(aes(x = migrate_onset_23, y = 250), color = "black", fill = "#8da0cb", shape = 25, size = 4) +
   ylab(expression(atop(paste("Upwelling transport (CUTI ", m^2, " ", s^-1, ")"), "cumulative sum"))) +
   xlab("") +
   scale_x_date(breaks = custom_breaks, date_labels = "%b", limits = c(min(cuti_clim$date), as.Date("2023-01-15"))) +
