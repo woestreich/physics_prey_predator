@@ -64,8 +64,8 @@ cuti_clim$csum5pctl <- rollapply(cuti_clim$csum5pctl,windowsize,mean,fill=NA,na.
 cuti_clim$csum95pctl <- rollapply(cuti_clim$csum95pctl,windowsize,mean,fill=NA,na.rm = TRUE)
 cuti_clim$csum99pctl <- rollapply(cuti_clim$csum99pctl,windowsize,mean,fill=NA,na.rm = TRUE)
 
-cuti_clim$date <- as.Date(cuti_clim$yday, origin = "2022-01-01")
-cuti_csum$date <- as.Date(cuti_csum$yday, origin = "2022-01-01")
+cuti_clim$date_adj <- as.Date(cuti_clim$yday - 1, origin = "2022-01-01")
+cuti_csum$date_adj <- as.Date(cuti_csum$yday - 1, origin = "2022-01-01")
 
 # save
 save(cuti_csum, file = "data_processed/cuti.Rdata")

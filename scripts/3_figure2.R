@@ -37,12 +37,12 @@ migrate_mean_23 <- update(migrate_mean_23, year = 2022)
 custom_breaks <- seq(as.Date("2022-01-01"), as.Date("2022-12-15"), by = "1 month")
 
 png("figures/Fig2.png", units="in", width=6, height=4, res=300)
-pa <- ggplot(cuti_clim, aes(date, csummean)) +
+pa <- ggplot(cuti_clim, aes(date_adj, csummean)) +
   geom_rect(aes(xmin = as.Date("2022-08-17"), xmax = as.Date("2022-11-29"), ymin = -Inf, ymax = Inf), fill = "lightgray", alpha = 0.5) +
   geom_line(aes(y = csum5pctl), linetype="dashed", color="black", linewidth=0.5) +
   geom_line(aes(y = csum95pctl), linetype="dashed", color="black", linewidth=0.5) +
   geom_line(color="black", linewidth=1) +
-  geom_line(data=cuti_csum, aes(x=date, y=csumrm, color=as.factor(year)), linewidth=1.8) +
+  geom_line(data=cuti_csum, aes(x=date_adj, y=csumrm, color=as.factor(year)), linewidth=1.8) +
   geom_point(aes(x = migrate_onset_22, y = 250), color = "black", fill = "#66c2a5", shape = 25, size = 4) +
   geom_point(aes(x = migrate_onset_23, y = 250), color = "black", fill = "#8da0cb", shape = 25, size = 4) +
   ylab(expression(atop(paste("Upwelling transport (CUTI ", m^2, " ", s^-1, ")"), "cumulative sum"))) +
