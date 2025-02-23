@@ -61,6 +61,7 @@ full_ts <- ts2 %>%
 
 ##### physical regime
 full_ts$year <- year(full_ts$date)
+full_ts$year <- as.factor(full_ts$year)
 full_ts <- full_ts %>%
   mutate(
     regime = case_when(
