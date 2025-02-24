@@ -10,7 +10,8 @@ rm(list=ls())
 ##### load processed datasets
 ## physics
 #load("data_processed/M1-SalinityAnomaly_80-250m.RData")
-load("data_processed/M1-SalinityAnomaly.RData")
+load("data_processed/salinity_2022.RData")
+load("data_processed/salinity_2023.RData")
 load("data_processed/cuti.Rdata")
 
 ## prey
@@ -40,16 +41,12 @@ zoop <- rbind(zoop_2022, zoop_2023)
 prey_all <- left_join(adcp_backscatter, zoop, by = "date")
 
 ## physics
-M1$date <- as.Date(M1$time)
-M1_daily <- M1 %>%
-  group_by(date) %>%
-  summarise(salinity_anomaly = mean(salinity_anomaly, na.rm = TRUE),
-            regime = first(regime)
-  )
+salinity <- rbind(salinity_2022, salinity_2023)
+salinity$date <- as.Date(salinity$date)
 
 # combing prey with M1 salinity
 ts1 <- prey_all %>%
-  left_join(select(M1_daily, date, salinity_anomaly), by = "date")
+  left_join(select(salinity, date, salinity_anomaly), by = "date")
 
 # combine with CUTI 
 ts2 <- ts1 %>%
@@ -59,16 +56,16 @@ ts2 <- ts1 %>%
 full_ts <- ts2 %>%
   left_join(select(vocal, date, Dcalls, blue_ci, ratio), by = "date")
 
-##### physical regime
+##### physical regime (defined by final day with salinity anomaly > 0.5)
 full_ts$year <- year(full_ts$date)
 full_ts$year <- as.factor(full_ts$year)
 full_ts <- full_ts %>%
   mutate(
     regime = case_when(
-      year == 2022 & date < as.Date("2022-10-01") ~ "upwelling",
-      year == 2022 & date >= as.Date("2022-10-01") ~ "post-upwelling",
-      year == 2023 & date < as.Date("2023-09-10") ~ "upwelling",
-      year == 2023 & date >= as.Date("2023-09-10") ~ "post-upwelling",
+      year == 2022 & date < as.Date("2022-10-02") ~ "upwelling",
+      year == 2022 & date >= as.Date("2022-10-02") ~ "post-upwelling",
+      year == 2023 & date < as.Date("2023-08-31") ~ "upwelling",
+      year == 2023 & date >= as.Date("2023-08-31") ~ "post-upwelling",
     ),
     regime = factor(regime)  
   )
