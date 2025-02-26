@@ -117,16 +117,16 @@ pc <- ggplot(full_ts, aes(x = year, y = zoop_nasc)) +
 
 ## D: vocal ratio boxplot
 pv <- kruskal_p_value(full_ts, "ratio")
-pd <- ggplot(full_ts, aes(x = year, y = ratio)) +
+pd <- ggplot(full_ts, aes(x = year, y = sqrt(ratio))) +
   geom_boxplot(aes(fill = year), alpha = 0.3, outlier.shape = NA) +
   geom_jitter(aes(color = year), width = 0.2, size = 2, alpha = 0.6) +
   scale_fill_manual(values = c("2022" = "#66c2a5", "2023" = "#8da0cb")) +
   scale_color_manual(values = c("2022" = "#66c2a5", "2023" = "#8da0cb")) + 
   labs(title = "Predator\nsocial behavior", 
        y = "D call : song\nnormalized ratio") +
-  annotate("text", x = 2, y = 2.08, 
+  annotate("text", x = 2, y = 1.49, 
            label = paste("p =", format(pv, digits = 2)), hjust = 0.5, size = 4) +
-  ylim(c(0,2.1)) +
+  ylim(c(0,1.5)) +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0)) + 
   theme(axis.title.x = element_blank(),

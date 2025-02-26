@@ -46,7 +46,8 @@ salinity$date <- as.Date(salinity$date)
 
 # combing prey with M1 salinity
 ts1 <- prey_all %>%
-  left_join(select(salinity, date, salinity_anomaly), by = "date")
+  full_join(select(salinity, date, salinity_anomaly), by = "date") %>%
+  arrange(date)
 
 # combine with CUTI 
 ts2 <- ts1 %>%
@@ -57,20 +58,26 @@ full_ts <- ts2 %>%
   left_join(select(vocal, date, Dcalls, blue_ci, ratio), by = "date")
 
 ##### physical regime (defined by final day with salinity anomaly > 0.5)
+full_ts$date <- as.Date(full_ts$date)
 full_ts$year <- year(full_ts$date)
 full_ts$year <- as.factor(full_ts$year)
 full_ts <- full_ts %>%
   mutate(
     regime = case_when(
-      year == 2022 & date < as.Date("2022-10-02") ~ "upwelling",
-      year == 2022 & date >= as.Date("2022-10-02") ~ "post-upwelling",
-      year == 2023 & date < as.Date("2023-08-31") ~ "upwelling",
-      year == 2023 & date >= as.Date("2023-08-31") ~ "post-upwelling",
+      year == 2022 & date < as.Date("2022-10-04") ~ "upwelling",
+      year == 2022 & date >= as.Date("2022-10-04") ~ "post-upwelling",
+      year == 2023 & date < as.Date("2023-09-11") ~ "upwelling",
+      year == 2023 & date >= as.Date("2023-09-11") ~ "post-upwelling",
     ),
     regime = factor(regime)  
   )
+
 ## order factor levels so upwelling comes first
 full_ts$regime <- factor(full_ts$regime, levels = c("upwelling", "post-upwelling"))
+
+##### truncate 2023 so we are not biasing the interannual comparison with extra late season days for 1 year but not the other
+full_ts <- full_ts %>% 
+  filter(date < as.Date("2023-12-01"))
 
 ##### save to file
 full_ts <- full_ts %>%
