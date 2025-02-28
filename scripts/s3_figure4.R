@@ -48,7 +48,7 @@ pb <- ggplot(full_ts, aes(x = regime, y = zoop_sv)) +
 
 # predator
 pv <- kruskal_p_value(full_ts,"ratio")
-pc <- ggplot(full_ts, aes(x = regime, y = sqrt(ratio))) +
+pc <- ggplot(full_ts, aes(x = regime, y = ratio)) +
   geom_boxplot(aes(fill = regime), alpha = 0.3, outlier.shape = NA) +
   geom_jitter(aes(color = regime), width = 0.2, size = 2, alpha = 0.6) +
   scale_fill_manual(values = c("upwelling" = "#AB3535", "post-upwelling" = "#244683")) +
@@ -56,6 +56,7 @@ pc <- ggplot(full_ts, aes(x = regime, y = sqrt(ratio))) +
   labs(title = "Predator\nsocial behavior", y = "D call : song\nnormalized ratio") +
   annotate("text", x = 2, y = 1.49, label = paste("p =", format(pv, digits = 2)), hjust = 0.5, size = 4) +
   ylim(c(0,1.5)) +
+  scale_y_sqrt() +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0.5)) +
   theme(plot.title = element_text(hjust = 0),

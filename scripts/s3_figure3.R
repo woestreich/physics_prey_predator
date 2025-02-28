@@ -149,9 +149,10 @@ pe_22 <- ggplot(ts_22, aes(date, sqrt(ratio))) +
   scale_x_datetime(date_breaks = "1 month", date_labels = "%b",
                    limits = c(as.POSIXct("2022-08-01"),as.POSIXct("2022-12-01"))) +
   ylim(c(0,1.52)) +
+  scale_y_sqrt() +
   theme_bw() 
 
-pe_23 <- ggplot(ts_23, aes(date, sqrt(ratio))) +
+pe_23 <- ggplot(ts_23, aes(date, ratio)) +
   geom_point() +
   geom_vline(xintercept = as.POSIXct("2023-09-11"), linetype = "dashed") + 
   labs(x = "", y = "") +
@@ -159,6 +160,7 @@ pe_23 <- ggplot(ts_23, aes(date, sqrt(ratio))) +
                    limits = c(as.POSIXct("2023-08-01"),as.POSIXct("2023-12-01"))) +
   ylim(c(0,1.52)) +
   theme_bw() +
+  scale_y_sqrt() +
   theme(axis.text.y = element_blank())
 
 
@@ -169,7 +171,7 @@ p <- (pa_22 | pa_23) /
   (pd_22 | pd_23) /
   (pe_22 | pe_23) 
 
-png("figures/Fig3.png", units = "in", width = 8.1, height = 7.2, res = 300)
+png("figures/Fig3.png", units = "in", width = 7.7, height = 7.2, res = 300)
 p 
 dev.off()
 
