@@ -62,7 +62,7 @@ pb <- ggplot(full_ts_upwelling_only, aes(x = year, y = ratio)) +
         text = element_text(size = 14), 
         plot.title = element_text(size = 12))
 
-png("figures/FigS1.png", units="in", width=6, height=4.5, res=300)
+png("figures/FigS1.png", units="in", width=7, height=4.5, res=300)
 pa+pb
 dev.off()
 
