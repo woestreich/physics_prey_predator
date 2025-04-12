@@ -96,9 +96,31 @@ pb_23 <- ggplot(ts_23, aes(date, salinity_anomaly)) +
   theme(axis.text.y = element_blank()) +
   theme(axis.text.x = element_blank())
 
+## 3. ADCP backscatter
+pc_22 <- ggplot(ts_22, aes(date, adcp_back_anom)) + 
+  geom_point() +
+  geom_vline(xintercept = as.POSIXct("2022-10-04"), linetype = "dashed") + 
+  labs(x = "", y = "") +
+  scale_x_datetime(date_breaks = "1 month", date_labels = "%b",
+                   limits = c(as.POSIXct("2022-08-01"),as.POSIXct("2022-12-01"))) +
+  ylim(c(-2.5, 2.5)) +
+  theme_bw() +
+  theme(axis.text.x = element_blank())
 
-## 3. zoop biomass
-pc_22 <- ggplot(ts_22, aes(date, zoop_nasc)) +
+pc_23 <- ggplot(ts_23, aes(date, adcp_back_anom)) + 
+  geom_point() +
+  geom_vline(xintercept = as.POSIXct("2023-09-11"), linetype = "dashed") + 
+  labs(x = "", y = "") +
+  scale_x_datetime(date_breaks = "1 month", date_labels = "%b",
+                   limits = c(as.POSIXct("2023-08-01"),as.POSIXct("2023-12-01"))) +
+  ylim(c(-2.5, 2.5)) +
+  theme_bw() +
+  theme(axis.text.y = element_blank()) +
+  theme(axis.text.x = element_blank())
+
+
+## 4. zoop biomass
+pd_22 <- ggplot(ts_22, aes(date, zoop_nasc)) +
   geom_point() +
   geom_vline(xintercept = as.POSIXct("2022-10-04"), linetype = "dashed") + 
   labs(x = "", y = "") +
@@ -108,7 +130,7 @@ pc_22 <- ggplot(ts_22, aes(date, zoop_nasc)) +
   theme_bw() +
   theme(axis.text.x = element_blank())
 
-pc_23 <- ggplot(ts_23, aes(date, zoop_nasc)) +
+pd_23 <- ggplot(ts_23, aes(date, zoop_nasc)) +
   geom_point() +
   geom_vline(xintercept = as.POSIXct("2023-09-11"), linetype = "dashed") + 
   labs(x = "", y = "") +
@@ -119,8 +141,8 @@ pc_23 <- ggplot(ts_23, aes(date, zoop_nasc)) +
   theme(axis.text.y = element_blank()) +
   theme(axis.text.x = element_blank())
 
-## 4. zoop density
-pd_22 <- ggplot(ts_22, aes(date, zoop_sv)) +
+## 5. zoop density
+pe_22 <- ggplot(ts_22, aes(date, zoop_sv)) +
   geom_point() +
   geom_vline(xintercept = as.POSIXct("2022-10-04"), linetype = "dashed") + 
   labs(x = "", y = "") +
@@ -130,7 +152,7 @@ pd_22 <- ggplot(ts_22, aes(date, zoop_sv)) +
   theme_bw() +
   theme(axis.text.x = element_blank())
 
-pd_23 <- ggplot(ts_23, aes(date, zoop_sv)) +
+pe_23 <- ggplot(ts_23, aes(date, zoop_sv)) +
   geom_point() +
   geom_vline(xintercept = as.POSIXct("2023-09-11"), linetype = "dashed") + 
   labs(x = "", y = "") +
@@ -141,26 +163,24 @@ pd_23 <- ggplot(ts_23, aes(date, zoop_sv)) +
   theme(axis.text.y = element_blank()) +
   theme(axis.text.x = element_blank())
 
-## 5. predator vocal metrics
-pe_22 <- ggplot(ts_22, aes(date, sqrt(ratio))) +
+## 6. predator vocal metrics
+pf_22 <- ggplot(ts_22, aes(date, ratio)) +
   geom_point() +
   geom_vline(xintercept = as.POSIXct("2022-10-04"), linetype = "dashed") + 
   labs(x = "", y = "") +
   scale_x_datetime(date_breaks = "1 month", date_labels = "%b",
                    limits = c(as.POSIXct("2022-08-01"),as.POSIXct("2022-12-01"))) +
-  ylim(c(0,1.52)) +
-  scale_y_sqrt() +
+  scale_y_sqrt(limits = c(0,2)) +
   theme_bw() 
 
-pe_23 <- ggplot(ts_23, aes(date, ratio)) +
+pf_23 <- ggplot(ts_23, aes(date, ratio)) +
   geom_point() +
   geom_vline(xintercept = as.POSIXct("2023-09-11"), linetype = "dashed") + 
   labs(x = "", y = "") +
   scale_x_datetime(date_breaks = "1 month", date_labels = "%b",
                    limits = c(as.POSIXct("2023-08-01"),as.POSIXct("2023-12-01"))) +
-  ylim(c(0,1.52)) +
+  scale_y_sqrt(limits = c(0,2)) +
   theme_bw() +
-  scale_y_sqrt() +
   theme(axis.text.y = element_blank())
 
 
@@ -169,9 +189,10 @@ p <- (pa_22 | pa_23) /
   (pb_22 | pb_23) / 
   (pc_22 | pc_23) / 
   (pd_22 | pd_23) /
-  (pe_22 | pe_23) 
+  (pe_22 | pe_23) /
+  (pf_22 | pf_23) 
 
-png("figures/Fig3.png", units = "in", width = 7.7, height = 7.2, res = 300)
+png("figures/Fig3.png", units = "in", width = 7.7, height = 9, res = 300)
 p 
 dev.off()
 

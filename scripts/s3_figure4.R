@@ -23,7 +23,7 @@ pa <- ggplot(full_ts, aes(x = regime, y = salinity_anomaly)) +
   geom_jitter(aes(color = regime), width = 0.2, size = 2, alpha = 0.6) +
   scale_fill_manual(values = c("upwelling" = "#AB3535", "post-upwelling" = "#244683")) +
   scale_color_manual(values = c("upwelling" = "#AB3535", "post-upwelling" = "#244683")) + 
-  labs(title = " \nPhysical forcing", y = "Salinity anomaly \n (upwelling indicator)") +
+  labs(title = "Physical\nforcing", y = "Salinity anomaly (sd)\n(upwelling indicator)") +
   annotate("text", x = 2, y = max(full_ts$salinity_anomaly, na.rm = T), label = paste("p =", format(pv, digits = 2)), hjust = 0.5, size = 4) +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0.5)) +
@@ -38,7 +38,7 @@ pb <- ggplot(full_ts, aes(x = regime, y = zoop_sv)) +
   geom_jitter(aes(color = regime), width = 0.2, size = 2, alpha = 0.6) +
   scale_fill_manual(values = c("upwelling" = "#AB3535", "post-upwelling" = "#244683")) +
   scale_color_manual(values = c("upwelling" = "#AB3535", "post-upwelling" = "#244683")) + 
-  labs(title = " \nPrey density", y = "Zooplankton\nvolume scattering (Sv)") +
+  labs(title = "Prey\ndensity", y = "Zooplankton\nlocal density (Sv)") +
   annotate("text", x = 2, y = max(full_ts$zoop_sv, na.rm = T), label = paste("p =", format(pv, digits = 2)), hjust = 0.5, size = 4) +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0.5)) +
@@ -55,8 +55,7 @@ pc <- ggplot(full_ts, aes(x = regime, y = ratio)) +
   scale_color_manual(values = c("upwelling" = "#AB3535", "post-upwelling" = "#244683")) + 
   labs(title = "Predator\nsocial behavior", y = "D call : song\nnormalized ratio") +
   annotate("text", x = 2, y = 1.49, label = paste("p =", format(pv, digits = 2)), hjust = 0.5, size = 4) +
-  ylim(c(0,1.5)) +
-  scale_y_sqrt() +
+  scale_y_sqrt(limits = c(0,2)) +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0.5)) +
   theme(plot.title = element_text(hjust = 0),

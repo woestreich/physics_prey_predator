@@ -73,7 +73,7 @@ pa <- ggplot(cuti_clim, aes(date_adj, csummean)) +
   annotate("text", x = as.Date("2022-02-25"), y = 180, label = "study period", color = "black", size = 3, hjust = 0) +
   geom_rect(aes(xmin = as.Date("2022-01-02"), xmax = as.Date("2022-06-01"), ymin = 170, ymax = 250), color = "black", fill = NA, size = 0.5) +
   theme_classic() +
-  theme(legend.position="none",text = element_text(size = 12))
+  theme(legend.position="none",text = element_text(size = 14))
 
 ## B: CUTI boxplot
 cuti_csum$year <- as.factor(cuti_csum$year)
@@ -87,8 +87,8 @@ pb <- ggplot(cuti_csum, aes(x = year, y = cuti_restricted)) +
   geom_jitter(aes(color = year), width = 0.2, size = 2, alpha = 0.6) +
   scale_fill_manual(values = c("2022" = "#66c2a5", "2023" = "#8da0cb")) +
   scale_color_manual(values = c("2022" = "#66c2a5", "2023" = "#8da0cb")) + 
-  labs(title = " \nPhysical forcing", 
-       y = expression(atop("Upwelling transport", paste("CUTI (", m^2, " ", s^-1, ")")))
+  labs(title = "Physical\nforcing", 
+       y = expression(atop("Upwelling transport", paste("(CUTI, ", m^2, " ", s^-1, ")")))
        ) +
   annotate("text", x = 2, y = max(cuti_csum$cuti_restricted, na.rm = T), 
            label = paste("p =", format(pv, digits = 2)), hjust = 0.5, size = 4) +
@@ -96,7 +96,8 @@ pb <- ggplot(cuti_csum, aes(x = year, y = cuti_restricted)) +
   theme(plot.title = element_text(hjust = 0)) + 
   theme(axis.title.x = element_blank(),
         legend.position = "none",
-        text = element_text(size = 10))
+        text = element_text(size = 14), 
+        plot.title = element_text(size = 12))
 
 ## C: prey boxplots
 pv <- kruskal_p_value(full_ts, "zoop_nasc")
@@ -105,15 +106,16 @@ pc <- ggplot(full_ts, aes(x = year, y = zoop_nasc)) +
   geom_jitter(aes(color = year), width = 0.2, size = 2, alpha = 0.6) +
   scale_fill_manual(values = c("2022" = "#66c2a5", "2023" = "#8da0cb")) +
   scale_color_manual(values = c("2022" = "#66c2a5", "2023" = "#8da0cb")) + 
-  labs(title = " \nPrey biomass", 
-       y = expression(atop("Zooplankton NASC", paste("(", m^2, " ", nmi^-2, ")")))) +
+  labs(title = "Prey\nabundance", 
+       y = expression(atop("Zooplankton", paste("biomass (", m^2, " ", nmi^-2, ")")))) +
   annotate("text", x = 2, y = max(full_ts$zoop_nasc, na.rm = T),
            label = paste("p =", format(pv, digits = 2)), hjust = 0.5, size = 4) +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0)) + 
   theme(axis.title.x = element_blank(),
         legend.position = "none",
-        text = element_text(size = 10))
+        text = element_text(size = 14), 
+        plot.title = element_text(size = 12))
 
 ## D: vocal ratio boxplot
 pv <- kruskal_p_value(full_ts, "ratio")
@@ -126,13 +128,13 @@ pd <- ggplot(full_ts, aes(x = year, y = ratio)) +
        y = "D call : song\nnormalized ratio") +
   annotate("text", x = 2, y = 1.52, 
            label = paste("p =", format(pv, digits = 2)), hjust = 0.5, size = 4) +
-  ylim(c(0,1.5)) +
   theme_bw() +
-  scale_y_sqrt() +
+  scale_y_sqrt(limits = c(0,2)) +
   theme(plot.title = element_text(hjust = 0)) + 
   theme(axis.title.x = element_blank(),
         legend.position = "none",
-        text = element_text(size = 10))
+        text = element_text(size = 14), 
+        plot.title = element_text(size = 12))
 
 
 png("figures/Fig2.png", units="in", width=8, height=8.5, res=300)

@@ -57,17 +57,43 @@ ts2 <- ts1 %>%
 full_ts <- ts2 %>%
   left_join(select(vocal, date, Dcalls, blue_ci, ratio), by = "date")
 
-##### physical regime (defined by final day with salinity anomaly > 0.5)
+##### physical regime (defined by final day with salinity anomaly running mean > 0)
 full_ts$date <- as.Date(full_ts$date)
 full_ts$year <- year(full_ts$date)
 full_ts$year <- as.factor(full_ts$year)
+ts_22 <- full_ts %>% 
+  filter(year == 2022)
+ts_23 <- full_ts %>% 
+  filter(year == 2023)
+
+## find this date in 2022
+ts_22$salinity_anomaly_rm <- rollapply(
+  ts_22$salinity_anomaly,
+  width = 10,
+  FUN = mean,
+  align = "center",
+  fill = NA,
+  partial = TRUE)
+transition_22 <- ts_22[which(ts_22$salinity_anomaly_rm > 0)[length(which(ts_22$salinity_anomaly_rm > 0))], ]
+
+## find this date in 2022
+ts_23$salinity_anomaly_rm <- rollapply(
+  ts_23$salinity_anomaly,
+  width = 10,
+  FUN = mean,
+  align = "center",
+  fill = NA,
+  partial = TRUE)
+transition_23 <- ts_23[which(ts_23$salinity_anomaly_rm > 0)[length(which(ts_23$salinity_anomaly_rm > 0))], ]
+
+
 full_ts <- full_ts %>%
   mutate(
     regime = case_when(
-      year == 2022 & date < as.Date("2022-10-04") ~ "upwelling",
-      year == 2022 & date >= as.Date("2022-10-04") ~ "post-upwelling",
-      year == 2023 & date < as.Date("2023-09-11") ~ "upwelling",
-      year == 2023 & date >= as.Date("2023-09-11") ~ "post-upwelling",
+      year == 2022 & date <= transition_22$date ~ "upwelling",
+      year == 2022 & date > transition_22$date ~ "post-upwelling",
+      year == 2023 & date <= transition_23$date ~ "upwelling",
+      year == 2023 & date > transition_23$date ~ "post-upwelling",
     ),
     regime = factor(regime)  
   )
