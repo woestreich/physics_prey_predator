@@ -38,8 +38,8 @@ migrate_mean_23 <- update(migrate_mean_23, year = 2022)
 
 ##### plot
 # function to perform Kruskal-Wallis test and return p-value
-kruskal_p_value <- function(data, variable) {
-  test <- kruskal.test(data[[variable]] ~ data$year)
+wilcox_p_value <- function(data, variable) {
+  test <- wilcox.test(data[[variable]] ~ data$year)
   return(test$p.value)
 }
 
@@ -81,7 +81,7 @@ cuti_csum$month <- month(cuti_csum$date)
 cuti_csum <- cuti_csum %>%
   mutate(cuti_restricted = ifelse(month > 1 & month < 12, cuti, NA))
 
-pv <- kruskal_p_value(cuti_csum, "cuti_restricted")
+pv <- wilcox_p_value(cuti_csum, "cuti_restricted")
 pb <- ggplot(cuti_csum, aes(x = year, y = cuti_restricted)) +
   geom_boxplot(aes(fill = year), alpha = 0.3, outlier.shape = NA) +
   geom_jitter(aes(color = year), width = 0.2, size = 2, alpha = 0.6) +
@@ -100,7 +100,7 @@ pb <- ggplot(cuti_csum, aes(x = year, y = cuti_restricted)) +
         plot.title = element_text(size = 12))
 
 ## C: prey boxplots
-pv <- kruskal_p_value(full_ts, "zoop_nasc")
+pv <- wilcox_p_value(full_ts, "zoop_nasc")
 pc <- ggplot(full_ts, aes(x = year, y = zoop_nasc)) +
   geom_boxplot(aes(fill = year), alpha = 0.3, outlier.shape = NA) +
   geom_jitter(aes(color = year), width = 0.2, size = 2, alpha = 0.6) +
@@ -118,7 +118,7 @@ pc <- ggplot(full_ts, aes(x = year, y = zoop_nasc)) +
         plot.title = element_text(size = 12))
 
 ## D: vocal ratio boxplot
-pv <- kruskal_p_value(full_ts, "ratio")
+pv <- wilcox_p_value(full_ts, "ratio")
 pd <- ggplot(full_ts, aes(x = year, y = ratio)) +
   geom_boxplot(aes(fill = year), alpha = 0.3, outlier.shape = NA) +
   geom_jitter(aes(color = year), width = 0.2, size = 2, alpha = 0.6) +
@@ -126,10 +126,10 @@ pd <- ggplot(full_ts, aes(x = year, y = ratio)) +
   scale_color_manual(values = c("2022" = "#66c2a5", "2023" = "#8da0cb")) + 
   labs(title = "Predator\nsocial behavior", 
        y = "D call : song\nnormalized ratio") +
-  annotate("text", x = 2, y = 1.52, 
+  annotate("text", x = 2, y = 2.2, 
            label = paste("p =", format(pv, digits = 2)), hjust = 0.5, size = 4) +
   theme_bw() +
-  scale_y_sqrt(limits = c(0,2)) +
+  scale_y_sqrt(limits = c(0,2.2)) +
   theme(plot.title = element_text(hjust = 0)) + 
   theme(axis.title.x = element_blank(),
         legend.position = "none",

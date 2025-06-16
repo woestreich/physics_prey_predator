@@ -1,5 +1,4 @@
-% Blue_Fin_DailyCI_diel.m: 
-% Compute daily call indices for blue whales from the CI basis file
+% Compute daily call indices for blue whales from the CI basis .mat data file
 
 % 1. Daily call index
 clear all; close all;

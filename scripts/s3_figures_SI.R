@@ -18,15 +18,15 @@ ts_23 <- full_ts %>%
 
 ##### Figure S1: Interannual comparisons constrained to the upwelling regime in 
 ##### each year.
-kruskal_p_value_year <- function(data, variable) {
-  test <- kruskal.test(data[[variable]] ~ data$year)
+wilcox_p_value_year <- function(data, variable) {
+  test <- wilcox.test(data[[variable]] ~ data$year)
   return(test$p.value)
 }
 
 full_ts_upwelling_only <- full_ts %>% 
   filter(regime == "upwelling")
 
-pv <- kruskal_p_value_year(full_ts_upwelling_only, "zoop_nasc")
+pv <- wilcox_p_value_year(full_ts_upwelling_only, "zoop_nasc")
 pa <- ggplot(full_ts_upwelling_only, aes(x = year, y = zoop_nasc)) +
   geom_boxplot(aes(fill = year), alpha = 0.3, outlier.shape = NA) +
   geom_jitter(aes(color = year), width = 0.2, size = 2, alpha = 0.6) +
@@ -43,7 +43,7 @@ pa <- ggplot(full_ts_upwelling_only, aes(x = year, y = zoop_nasc)) +
         text = element_text(size = 14), 
         plot.title = element_text(size = 12))
 
-pv <- kruskal_p_value_year(full_ts_upwelling_only, "ratio")
+pv <- wilcox_p_value_year(full_ts_upwelling_only, "ratio")
 pb <- ggplot(full_ts_upwelling_only, aes(x = year, y = ratio)) +
   geom_boxplot(aes(fill = year), alpha = 0.3, outlier.shape = NA) +
   geom_jitter(aes(color = year), width = 0.2, size = 2, alpha = 0.6) +
@@ -51,11 +51,10 @@ pb <- ggplot(full_ts_upwelling_only, aes(x = year, y = ratio)) +
   scale_color_manual(values = c("2022" = "#66c2a5", "2023" = "#8da0cb")) + 
   labs(title = "Predator\nsocial behavior", 
        y = "D call : song\nnormalized ratio") +
-  annotate("text", x = 2, y = 1.52, 
+  annotate("text", x = 2, y = 2.2, 
            label = paste("p =", format(pv, digits = 2)), hjust = 0.5, size = 4) +
-  ylim(c(0,1.5)) +
   theme_bw() +
-  scale_y_sqrt() +
+  scale_y_sqrt(limits = c(0,2.2)) +
   theme(plot.title = element_text(hjust = 0)) + 
   theme(axis.title.x = element_blank(),
         legend.position = "none",
