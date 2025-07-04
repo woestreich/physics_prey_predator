@@ -33,9 +33,9 @@ pa <- ggplot(full_ts_upwelling_only, aes(x = year, y = zoop_nasc)) +
   scale_fill_manual(values = c("2022" = "#66c2a5", "2023" = "#8da0cb")) +
   scale_color_manual(values = c("2022" = "#66c2a5", "2023" = "#8da0cb")) + 
   labs(title = "Prey\nabundance", 
-       y = expression(atop("Zooplankton", paste("biomass (", m^2, " ", nmi^-2, ")")))) +
+       y = expression(atop("Krill biomass", paste("(", m^2, " ", nmi^-2, ")")))) +
   annotate("text", x = 2, y = max(full_ts$zoop_nasc, na.rm = T),
-           label = paste("p =", format(pv, digits = 2)), hjust = 0.5, size = 4) +
+           label = "p < .00001", hjust = 0.5, size = 4) +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0)) + 
   theme(axis.title.x = element_blank(),
@@ -50,9 +50,9 @@ pb <- ggplot(full_ts_upwelling_only, aes(x = year, y = ratio)) +
   scale_fill_manual(values = c("2022" = "#66c2a5", "2023" = "#8da0cb")) +
   scale_color_manual(values = c("2022" = "#66c2a5", "2023" = "#8da0cb")) + 
   labs(title = "Predator\nsocial behavior", 
-       y = "D call : song\nnormalized ratio") +
+       y = "D call:song\nnormalized ratio") +
   annotate("text", x = 2, y = 2.2, 
-           label = paste("p =", format(pv, digits = 2)), hjust = 0.5, size = 4) +
+           label = "p < .05", hjust = 0.5, size = 4) +
   theme_bw() +
   scale_y_sqrt(limits = c(0,2.2)) +
   theme(plot.title = element_text(hjust = 0)) + 
@@ -90,7 +90,7 @@ pb <- ggplot(ts_23, aes(date, Dcalls)) +
 pc <- ggplot(ts_22, aes(date, blue_ci)) +
   geom_point() +
   geom_vline(xintercept = as.POSIXct("2022-10-04"), linetype = "dashed") + 
-  labs(x = "", y = "Song Index") +
+  labs(x = "", y = "Song\ncall index") +
   scale_x_datetime(date_breaks = "1 month", date_labels = "%b",
                    limits = c(as.POSIXct("2022-08-01"),as.POSIXct("2022-12-01"))) +
   ylim(c(1,1.175)) +
@@ -107,7 +107,7 @@ pd <- ggplot(ts_23, aes(date, blue_ci)) +
 pe <- ggplot(ts_22, aes(date, ratio)) +
   geom_point() +
   geom_vline(xintercept = as.POSIXct("2022-10-04"), linetype = "dashed") + 
-  labs(x = "", y = "D call : song\nnormalized ratio") +
+  labs(x = "", y = "D call:song\nnormalized ratio") +
   scale_x_datetime(date_breaks = "1 month", date_labels = "%b",
                    limits = c(as.POSIXct("2022-08-01"),as.POSIXct("2022-12-01"))) +
   scale_y_sqrt(limits = c(0,2)) +

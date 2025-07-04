@@ -91,7 +91,7 @@ pb <- ggplot(cuti_csum, aes(x = year, y = cuti_restricted)) +
        y = expression(atop("Upwelling transport", paste("(CUTI, ", m^2, " ", s^-1, ")")))
        ) +
   annotate("text", x = 2, y = max(cuti_csum$cuti_restricted, na.rm = T), 
-           label = paste("p =", format(pv, digits = 2)), hjust = 0.5, size = 4) +
+           label = "p < .01", hjust = 0.5, size = 4) +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0)) + 
   theme(axis.title.x = element_blank(),
@@ -107,9 +107,9 @@ pc <- ggplot(full_ts, aes(x = year, y = zoop_nasc)) +
   scale_fill_manual(values = c("2022" = "#66c2a5", "2023" = "#8da0cb")) +
   scale_color_manual(values = c("2022" = "#66c2a5", "2023" = "#8da0cb")) + 
   labs(title = "Prey\nabundance", 
-       y = expression(atop("Zooplankton", paste("biomass (", m^2, " ", nmi^-2, ")")))) +
+       y = expression(atop("Krill biomass", paste("(", m^2, " ", nmi^-2, ")")))) +
   annotate("text", x = 2, y = max(full_ts$zoop_nasc, na.rm = T),
-           label = paste("p =", format(pv, digits = 2)), hjust = 0.5, size = 4) +
+           label = "p < .00001", hjust = 0.5, size = 4) +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0)) + 
   theme(axis.title.x = element_blank(),
@@ -125,9 +125,9 @@ pd <- ggplot(full_ts, aes(x = year, y = ratio)) +
   scale_fill_manual(values = c("2022" = "#66c2a5", "2023" = "#8da0cb")) +
   scale_color_manual(values = c("2022" = "#66c2a5", "2023" = "#8da0cb")) + 
   labs(title = "Predator\nsocial behavior", 
-       y = "D call : song\nnormalized ratio") +
+       y = "D call:song\nnormalized ratio") +
   annotate("text", x = 2, y = 2.2, 
-           label = paste("p =", format(pv, digits = 2)), hjust = 0.5, size = 4) +
+           label = "p < .001", hjust = 0.5, size = 4) +
   theme_bw() +
   scale_y_sqrt(limits = c(0,2.2)) +
   theme(plot.title = element_text(hjust = 0)) + 

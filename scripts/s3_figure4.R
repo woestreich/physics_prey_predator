@@ -24,7 +24,7 @@ pa <- ggplot(full_ts, aes(x = regime, y = salinity_anomaly)) +
   scale_fill_manual(values = c("upwelling" = "#AB3535", "post-upwelling" = "#244683")) +
   scale_color_manual(values = c("upwelling" = "#AB3535", "post-upwelling" = "#244683")) + 
   labs(title = "Physical\nforcing", y = "Salinity anomaly (sd)\n(upwelling indicator)") +
-  annotate("text", x = 2, y = max(full_ts$salinity_anomaly, na.rm = T), label = paste("p =", format(pv, digits = 2)), hjust = 0.5, size = 4) +
+  annotate("text", x = 2, y = max(full_ts$salinity_anomaly, na.rm = T), label = "p < .00001", hjust = 0.5, size = 4) +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0.5)) +
   theme(plot.title = element_text(hjust = 0),
@@ -38,8 +38,8 @@ pb <- ggplot(full_ts, aes(x = regime, y = zoop_sv)) +
   geom_jitter(aes(color = regime), width = 0.2, size = 2, alpha = 0.6) +
   scale_fill_manual(values = c("upwelling" = "#AB3535", "post-upwelling" = "#244683")) +
   scale_color_manual(values = c("upwelling" = "#AB3535", "post-upwelling" = "#244683")) + 
-  labs(title = "Prey\ndensity", y = "Zooplankton\nlocal density (Sv)") +
-  annotate("text", x = 2, y = max(full_ts$zoop_sv, na.rm = T), label = paste("p =", format(pv, digits = 2)), hjust = 0.5, size = 4) +
+  labs(title = "Prey\ndensity", y = "Krill swarm\nlocal density (Sv)") +
+  annotate("text", x = 2, y = max(full_ts$zoop_sv, na.rm = T), label = "p < .0001", hjust = 0.5, size = 4) +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0.5)) +
   theme(plot.title = element_text(hjust = 0),
@@ -53,8 +53,8 @@ pc <- ggplot(full_ts, aes(x = regime, y = ratio)) +
   geom_jitter(aes(color = regime), width = 0.2, size = 2, alpha = 0.6) +
   scale_fill_manual(values = c("upwelling" = "#AB3535", "post-upwelling" = "#244683")) +
   scale_color_manual(values = c("upwelling" = "#AB3535", "post-upwelling" = "#244683")) + 
-  labs(title = "Predator\nsocial behavior", y = "D call : song\nnormalized ratio") +
-  annotate("text", x = 2, y = 2.2, label = paste("p =", format(pv, digits = 2)), hjust = 0.5, size = 4) +
+  labs(title = "Predator\nsocial behavior", y = "D call:song\nnormalized ratio") +
+  annotate("text", x = 2, y = 2.2, label = "p < .00001", hjust = 0.5, size = 4) +
   scale_y_sqrt(limits = c(0,2.2)) +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0.5)) +
@@ -63,7 +63,7 @@ pc <- ggplot(full_ts, aes(x = regime, y = ratio)) +
         legend.position = "none",text = element_text(size = 10)) 
 
 
-png("figures/Fig4_new.png", units="in", width=8, height=4, res=300)
+png("figures/Fig4.png", units="in", width=8, height=4, res=300)
 pa + pb + pc
 dev.off()
 
